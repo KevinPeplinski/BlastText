@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // MARK: BlastText
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct BlastText: View {
     private let content: String
     private let delimiter: BlastDelimiter
@@ -39,7 +39,7 @@ public struct BlastText: View {
     }
 }
 
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 public extension BlastText {
 
     /// Function that applies a given ViewModifier to each Segment of the `BlastText` View
@@ -52,7 +52,7 @@ public extension BlastText {
     }
 }
 
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension BlastText {
     
     /// Holds the blasted value in a form thats easy to work with in SwiftUI
@@ -97,6 +97,7 @@ internal extension BlastText {
 }
 
 // MARK: Blasting
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension String {
 
     /// Blasts a `String` into pieces for a given `NSRegularExpression`
@@ -126,7 +127,7 @@ internal extension String {
     }
 }
 
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension BlastText {
 
     /// Computed property that provides the blasted content in a form thats easy to work with in SwiftUI
@@ -138,7 +139,7 @@ internal extension BlastText {
 }
 
 // MARK: Regular Expressions
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 public extension BlastText {
 
     /// Defines default regex that can be used for blasting the text
@@ -185,6 +186,7 @@ public extension BlastText {
     }
 }
 
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension NSRegularExpression {
 
     /// To avoid force unwrapping, heres a conveniecne initializer that either creates a regex correctly or creates an assertion failure
@@ -198,7 +200,7 @@ internal extension NSRegularExpression {
 }
 
 // MARK: LocalizedStringKey
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 extension BlastText {
     
     /// default initializer for `BlastText` that mimics `Text` handling of `LocalizedStringKey`
@@ -217,7 +219,7 @@ extension BlastText {
     }
 }
 
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension LocalizedStringKey {
 
     /// Computed property that contains the key of the `LocalizedStrinkKey` accessed by the description
@@ -231,6 +233,7 @@ internal extension LocalizedStringKey {
     }
 }
 
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension String {
 
     /// Returns Localized String for a given Key/Locale combination if there is a .lproj file in main bundle for the locale
@@ -244,7 +247,7 @@ internal extension String {
     }
 }
 
-@available(OSX 10.15, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 internal extension LocalizedStringKey {
 
     /// Returns `String` value of a `LocalizedStringKey` for a given Locale if exists, else returns the Key value of the `LocalizedStringKey`
