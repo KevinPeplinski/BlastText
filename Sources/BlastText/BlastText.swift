@@ -255,3 +255,54 @@ internal extension LocalizedStringKey {
         return String.localizedString(for: self.stringKey, locale: locale) ?? self.stringKey
     }
 }
+
+// MARK: Blast modifier
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+extension Text {
+    
+    /// SwiftUI does not allow direct access to the text value of SwiftUI's`Text`.
+    /// However, a text value is mandatory for creating a `BlastText`.
+    /// In order to convert a `Text` into a `BlastText` via a modifier, the approach of a reflection was chosen.
+    /// This way the text value inside `Text` can be accessed and then passed on to the corresponding initializer of `BlastText`.
+    ///
+    /// the modifier takes into account whether the `Text` was initialized via a `LocalizedStringKey`,
+    /// and displays the correct text value.
+    ///
+    ///     I would not recommend this for production!
+    ///
+    ///     Text("Hello World!")
+    ///         .blast()
+    ///
+    /// - Parameter delimiter: The delimiter which is responsible for the rule according to which the given content is divided
+    func blast(_ delimiter: BlastText.BlastDelimiter = .word) -> BlastText {
+        let reflectionTuple = Self.findTextValueViaReflection(value: self, false)
+        guard let foundText = reflectionTuple.0 else {
+            return BlastText(verbatim: "Error", delimiter: delimiter)
+        }
+        if reflectionTuple.1 {
+            return BlastText(LocalizedStringKey(foundText), delimiter: delimiter)
+        }
+        return BlastText(verbatim: foundText, delimiter: delimiter)
+    }
+    
+    /// Recursive function that searches for a `String` within the specified element and then returns it as a tuple if it exists.
+    /// The tuple also contains a `Bool` indicating whether there was a `LocalizedStringKey` on the child structure
+    internal static func findTextValueViaReflection(value: Any, _ didFindLocalizedStringKey: Bool) -> (String?, Bool) {
+        let mirror = Mirror(reflecting: value)
+        var _didFindLocalizedStringKey = didFindLocalizedStringKey
+        
+        for property in mirror.children {
+            if property.value is LocalizedStringKey {
+                _didFindLocalizedStringKey = true
+            }
+            guard let _ = property.label else {
+                return (nil, _didFindLocalizedStringKey)
+            }
+            if let str = property.value as? String {
+                return (str, _didFindLocalizedStringKey)
+            }
+            return findTextValueViaReflection(value: property.value, _didFindLocalizedStringKey)
+        }
+        return (nil, false)
+    }
+}
