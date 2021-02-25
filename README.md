@@ -82,7 +82,41 @@ Text("Hello World!")
     .blast(.character)
 ```
 
+### Segment Modifier
+`BlastText` blasts the text value into small segments that can then be customized to your liking. Simply apply the `.segmentModifier()` to your `BlastText` and pass the desired modifier to be applied to each segment.   
+
 ```swift
 BlastText("Hello World!")
-    .segmentModifier()
+    .segmentModifier(...)
+```
+
+## Examples 
+
+### BlastText Logo
+
+<img src="https://raw.githubusercontent.com/KevinPeplinski/BlastText/main/images/logo.png" alt="BlastText" title="BlastText" width="330"/>
+
+```swift
+import SwiftUI 
+import BlastText
+
+struct ContentView: View {
+    var body: some View {
+        BlastText(verbatim: "BLASTTEXT", delimeter: .character)
+            .segmenModifier(CircularBackground())
+    }
+}
+
+struct CircularBackground: ViewModifier {
+    
+    let colors: [Color] = [.red, .blue, .green, .orange, .purple, .pink, .yellow]
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.white)
+            .padding()
+            .background(colors.randomElement())
+            .clipShape(Circle())
+    }
+}
 ```
