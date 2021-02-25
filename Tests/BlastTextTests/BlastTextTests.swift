@@ -40,7 +40,7 @@ final class BlastTextTests: XCTestCase {
     }
     
     func testBlastTextWithWordDelimiter() {
-        let blastSegmentsValues = BlastText(verbatim: stringToBlast, delimiter: .word).blastSegments.map {
+        let blastSegmentsValues = BlastText(verbatim: stringToBlast).blastSegments.map {
             $0.value
         }
         
@@ -80,6 +80,36 @@ final class BlastTextTests: XCTestCase {
         
         XCTAssertTrue(test.blastSegments[0].value == key.stringValue())
     }
+    
+    func testTextBlastModifier() {
+        let text = Text(stringToBlast)
+        let blastSegmentsValues = text.blast().blastSegments.map {
+            $0.value
+        }
+        
+        let expectedResult: [String] = ["Lorem ", "ipsum ", "dolor ",
+                                        "sit ", "amet, ", "voluptua. ",
+                                        "At ", "et ", "ea ", "rebum."]
+        
+        XCTAssertEqual(blastSegmentsValues, expectedResult)
+    }
+    
+    func testTextBlastModifierWithCharacterDelimiter() {
+        let text = Text(stringToBlast)
+        let blastSegmentsValues = text.blast(.character).blastSegments.map {
+            $0.value
+        }
+        
+        let expectedResult: [String] = ["L", "o", "r", "e", "m ", "i", "p",
+                                        "s", "u", "m ", "d", "o","l", "o",
+                                        "r ", "s", "i", "t ", "a", "m", "e",
+                                        "t", ", ", "v", "o", "l", "u", "p",
+                                        "t", "u", "a", ". ", "A", "t ", "e",
+                                        "t ", "e", "a ", "r", "e", "b", "u",
+                                        "m", "."]
+        
+        XCTAssertEqual(blastSegmentsValues, expectedResult)
+    }
 
     static var allTests = [
         ("testBlastTextWithAllDelimiter", testBlastTextWithAllDelimiter),
@@ -87,6 +117,8 @@ final class BlastTextTests: XCTestCase {
         ("testBlastTextWithWordDelimiter", testBlastTextWithWordDelimiter),
         ("testBlastTextWithSentenceDelimiter", testBlastTextWithSentenceDelimiter),
         ("testBlastTextWithCustomDelimiter", testBlastTextWithCustomDelimiter),
-        ("testBlastTextWithLocalizedInitializerButNoMatchInLocalizationFileOrNoLocalizationFileProvided", testBlastTextWithLocalizedInitializerButNoMatchInLocalizationFileOrNoLocalizationFileProvided)
+        ("testBlastTextWithLocalizedInitializerButNoMatchInLocalizationFileOrNoLocalizationFileProvided", testBlastTextWithLocalizedInitializerButNoMatchInLocalizationFileOrNoLocalizationFileProvided),
+        ("testTextBlastModifier", testTextBlastModifier),
+        ("testTextBlastModifierWithCharacterDelimiter", testTextBlastModifierWithCharacterDelimiter)
     ]
 }
